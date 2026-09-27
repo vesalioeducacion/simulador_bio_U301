@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOLOGÍA - Genética y Herencia: Leyes de Mendel e Interacción Génica (UCCuyo)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX for ultra-fast LaTeX formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f7f9f6;
+        }
+        /* Paleta Institucional Verde Oliva UCCuyo (Idéntica a U1-01 y U2-12) */
+        .text-accent { color: #436600; }
+        .bg-accent { background-color: #436600; }
+        .bg-accent-hover:hover { background-color: #324d00; }
+        .bg-accent-light { background-color: #f1f6eb; }
+        .border-accent { border-color: #436600; }
+
+        .text-primary { color: #436600; }
+        .bg-primary { background-color: #436600; }
+        .bg-primary-dark { background-color: #324d00; }
+        .border-primary { border-color: #436600; }
+        
+        .focus-accent:focus {
+            border-color: #436600;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 102, 0, 0.2);
+        }
+        
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        canvas {
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Cabecera Institucional UCCuyo -->
+    <header class="bg-white border-b border-gray-200 shadow-xs sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-accent flex items-center justify-center text-white font-bold text-lg shadow-sm">
+                    B
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-gray-800 tracking-wide uppercase">BIOLOGÍA</h1>
+                    <p class="text-xs text-gray-500 font-semibold">PreMédico (Facultad de Cs. Médicas - UCCuyo)</p>
+                </div>
+            </div>
+            <!-- Botón de Guía de Estudio -->
+            <button onclick="openTutorial()" class="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-white text-xs font-semibold rounded-lg shadow-sm hover:opacity-90 transition">
+                <i class="fa-solid fa-graduation-cap"></i>
+                Guía de Uso
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenido Principal con Menú Lateral -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+        
+        <!-- Menú de Navegación Lateral -->
+        <nav class="w-full lg:w-64 flex flex-row lg:flex-col gap-2 bg-white p-3 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto lg:overflow-x-visible whitespace-nowrap lg:whitespace-normal sticky top-20 h-fit">
+            <button onclick="switchTab('tab-glosario')" id="btn-tab-glosario" class="bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-semibold transition">
+                1. Conceptos & Cromosomas
+            </button>
+            <button onclick="switchTab('tab-mendel')" id="btn-tab-mendel" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition">
+                2. Leyes de Mendel & Punnett
+            </button>
+            <button onclick="switchTab('tab-no-mendel')" id="btn-tab-no-mendel" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition">
+                3. Interacción Génica & ABO
+            </button>
+            <button onclick="switchTab('tab-ambiente')" id="btn-tab-ambiente" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition">
+                4. Genotipo, Penetrancia & Clima
+            </button>
+        </nav>
+
+        <!-- Contenedores de Sección -->
+        <div class="flex-1 overflow-hidden space-y-6">
+            
+            <!-- ==================== TAB 1: CONCEPTOS & CROMOSOMAS ==================== -->
+            <section id="tab-glosario" class="tab-content block space-y-6">
+                <!-- Header Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-1">Terminología y Conceptos Fundamentales de Genética</h2>
+                    <p class="text-xs text-gray-500">Segmento génico, locus cromosómico, variantes alélicas y la correlación entre genotipo (G), ambiente (E) y fenotipo observable (F).</p>
+                </div>
+
+                <!-- Simulation Interactive Card with Canvas -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-3 border-b border-gray-100">
+                        <div>
+                            <span class="text-xs font-bold text-accent uppercase tracking-wider">Cariología & Biología Molecular</span>
+                            <h3 class="text-base font-bold text-gray-800 mt-0.5">Par Cromosómico Homólogo y Locus Alélico</h3>
+                        </div>
+                        <!-- Cigosidad Selector -->
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="setZygosity('homo-dom')" id="btn-zyg-hd" class="px-2.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg transition shadow-sm">
+                                Homocigota Dominante <em>AA</em>
+                            </button>
+                            <button onclick="setZygosity('hetero')" id="btn-zyg-het" class="px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition">
+                                Heterocigota <em>Aa</em>
+                            </button>
+                            <button onclick="setZygosity('homo-rec')" id="btn-zyg-hr" class="px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition">
+                                Homocigota Recesivo <em>aa</em>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Cromosomas -->
+                    <div class="w-full bg-[#fcfdfb] rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center p-2">
+                        <canvas id="canvas-chrom" width="750" height="340" class="max-w-full h-auto"></canvas>
+                    </div>
+
+                    <!-- Telemetry Cards -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Genotipo (G)</span>
+                            <span id="t1-genotype-val" class="text-base font-bold text-accent">AA</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Condición Alélica</span>
+                            <span id="t1-zygosity-val" class="text-base font-bold text-blue-600">Homocigota Dominante</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Fenotipo Esperado (F)</span>
+                            <span id="t1-phenotype-val" class="text-base font-bold text-amber-600">Semilla Amarilla</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Locus Físico</span>
+                            <span class="text-xs font-bold text-emerald-600 mt-1 block">Brazo Largo (q) • Cromosoma 1</span>
+                        </div>
+                    </div>
+
+                    <!-- 6 Concept Glossary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                        <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+                            <strong class="text-accent text-xs uppercase tracking-wider block mb-1">🧬 Gen</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">Segmento específico de ADN con secuencia codificante para sintetizar una proteína o ARN, constituyendo la unidad funcional de la herencia biológica.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+                            <strong class="text-accent text-xs uppercase tracking-wider block mb-1">📍 Locus / Loci</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">Ubicación física precisa e invariable que ocupa un gen determinado dentro de un cromosoma homólogo. El plural latino formal es <i>loci</i>.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+                            <strong class="text-accent text-xs uppercase tracking-wider block mb-1">🔀 Alelos</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">Formas o secuencias alternativas que puede presentar un mismo gen en un locus dado, originadas a partir de mutaciones a lo largo de la evolución.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+                            <strong class="text-accent text-xs uppercase tracking-wider block mb-1">🔍 Genotipo vs. Fenotipo</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">El <b>Genotipo</b> es la dotación alélica heredada, mientras que el <b>Fenotipo</b> son los rasgos morfológicos, fisiológicos y clínicos observables expresados a partir de los alelos y el medio ambiente.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+                            <strong class="text-accent text-xs uppercase tracking-wider block mb-1">⚖️ Cigosidad</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed"><b>Homocigoto:</b> Dos alelos idénticos en el locus (AA o aa). <b>Heterocigoto:</b> Dos alelos diferentes en cromosomas homólogos <em>Aa</em>.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+                            <strong class="text-accent text-xs uppercase tracking-wider block mb-1">🛡️ Dominancia y Recesividad</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">El alelo dominante se manifiesta tanto en homocigosis <em>AA</em> como en heterocigosis <em>Aa</em>. El alelo recesivo solo se expresa fenotípicamente en homocigosis <em>aa</em>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== TAB 2: LEYES DE MENDEL & PUNNETT ==================== -->
+            <section id="tab-mendel" class="tab-content hidden space-y-6">
+                <!-- Header Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-1">Primera Ley de Mendel: Segregación y Cruzamientos Genéticos</h2>
+                    <p class="text-xs text-gray-500">Modelo experimental con <i>Pisum sativum</i>. Cruzamiento parental (P), uniformidad de la F₁, segregación meiótica y proporciones fenotípicas 3:1 y genotípicas 1:2:1 en F₂.</p>
+                </div>
+
+                <!-- Simulation Card with Canvas -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-3 border-b border-gray-100">
+                        <div>
+                            <span class="text-xs font-bold text-accent uppercase tracking-wider">Gregor Mendel (1865) • Hibridación de Líneas Puras</span>
+                            <h3 class="text-base font-bold text-gray-800 mt-0.5">Segregación Alélica en la Generación F₂ ($3:1$)</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="runStochasticSimulation()" class="px-3 py-1.5 bg-accent text-white text-xs font-bold rounded-lg shadow-sm hover:opacity-90 transition flex items-center gap-1.5">
+                                <span>🎲</span> <span>Simular 1,000 Cruces</span>
+                            </button>
+                            <button onclick="resetMendelSim()" class="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-200 transition">
+                                <span>🔄</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Mendel -->
+                    <div class="w-full bg-[#fcfdfb] rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center p-2">
+                        <canvas id="canvas-mendel" width="750" height="340" class="max-w-full h-auto"></canvas>
+                    </div>
+
+                    <!-- Proportions & Punnett Telemetry -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Proporción Fenotípica F₂</span>
+                            <span class="text-base font-bold text-accent">3:1 (75% : 25%)</span>
+                            <span class="text-[10px] text-gray-500 block">3 Amarillas : 1 Verde</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Proporción Genotípica F₂</span>
+                            <span class="text-base font-bold text-blue-600">1:2:1</span>
+                            <span class="text-[10px] text-gray-500 block">25% AA : 50% Aa : 25% aa</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Simulación N = 1.000 <em>AA</em></span>
+                            <span id="stoch-aa-val" class="text-base font-bold text-emerald-600">250 (25.0%)</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Simulación N = 1.000 <em>aa</em></span>
+                            <span id="stoch-aa-rec-val" class="text-base font-bold text-amber-600">250 (25.0%)</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Punnett Grid Table -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 overflow-x-auto">
+                        <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Tablero de Punnett Interactivo Monohíbrido ($Aa \times Aa$):</h4>
+                        <table class="w-full max-w-md mx-auto text-center border-collapse bg-white rounded-lg overflow-hidden shadow-xs text-xs">
+                            <thead>
+                                <tr>
+                                    <th class="p-2 border border-gray-200 bg-gray-100 text-gray-500">Gametas ♀ / ♂</th>
+                                    <th class="p-2 border border-gray-200 bg-accent-light text-accent font-bold">A (50%)</th>
+                                    <th class="p-2 border border-gray-200 bg-accent-light text-accent font-bold">a (50%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-2 border border-gray-200 bg-accent-light text-accent font-bold">A (50%)</td>
+                                    <td class="p-3 border border-gray-200 bg-yellow-50/70">
+                                        <span class="font-bold text-yellow-900 text-sm">AA</span>
+                                        <div class="text-[10px] text-gray-500">Amarilla (Homocigota)</div>
+                                    </td>
+                                    <td class="p-3 border border-gray-200 bg-yellow-50/70">
+                                        <span class="font-bold text-yellow-900 text-sm">Aa</span>
+                                        <div class="text-[10px] text-gray-500">Amarilla (Heterocigota)</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 border border-gray-200 bg-accent-light text-accent font-bold">a (50%)</td>
+                                    <td class="p-3 border border-gray-200 bg-yellow-50/70">
+                                        <span class="font-bold text-yellow-900 text-sm">Aa</span>
+                                        <div class="text-[10px] text-gray-500">Amarilla (Heterocigota)</div>
+                                    </td>
+                                    <td class="p-3 border border-gray-200 bg-emerald-50/70">
+                                        <span class="font-bold text-emerald-900 text-sm">aa</span>
+                                        <div class="text-[10px] text-gray-500">Verde (Homocigota)</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== TAB 3: HERENCIA NO MENDELIANA & ABO ==================== -->
+            <section id="tab-no-mendel" class="tab-content hidden space-y-6">
+                <!-- Header Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-1">Patrones de Herencia No Mendeliana e Interacción Génica</h2>
+                    <p class="text-xs text-gray-500">Desviaciones de las proporciones mendelianas clásicas: dominancia incompleta, codominancia de alelos múltiples (sistema ABO eritrocitario), epistasis, pleiotropía y herencia cuantitativa poligénica.</p>
+                </div>
+
+                <!-- Simulation Card with Canvas -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-3 border-b border-gray-100">
+                        <div>
+                            <span class="text-xs font-bold text-accent uppercase tracking-wider">Mecanismos Complejos de Transmisión</span>
+                            <h3 class="text-base font-bold text-gray-800 mt-0.5" id="nm-mode-title">Dominancia Incompleta: Flores de Mirabilis jalapa</h3>
+                        </div>
+                        <!-- Mode Selector Buttons -->
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="setNonMendelMode('incompleta')" id="btn-nm-inc" class="px-2.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg transition shadow-sm">
+                                🌺 Dominancia Incompleta
+                            </button>
+                            <button onclick="setNonMendelMode('abo')" id="btn-nm-abo" class="px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition">
+                                🩸 Sistema ABO & Codominancia
+                            </button>
+                            <button onclick="setNonMendelMode('poligenia')" id="btn-nm-poli" class="px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition">
+                                📈 Poligenia & Gauss
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Canvas No Mendeliano -->
+                    <div class="w-full bg-[#fcfdfb] rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center p-2">
+                        <canvas id="canvas-non-mendel" width="750" height="340" class="max-w-full h-auto"></canvas>
+                    </div>
+
+                    <!-- Telemetry Cards -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block" id="nm-t1-title">Genotipo Analizado</span>
+                            <span id="nm-t1-val" class="text-base font-bold text-accent">C<sup>R</sup>C<sup>W</sup></span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block" id="nm-t2-title">Fenotipo Expresado</span>
+                            <span id="nm-t2-val" class="text-base font-bold text-pink-600">Rosado (Intermedio)</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block" id="nm-t3-title">Mecanismo Molecular</span>
+                            <span id="nm-t3-val" class="text-xs font-bold text-indigo-600 mt-1 block">50% Síntesis Antocianina</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Proporción F₂</span>
+                            <span id="nm-t4-val" class="text-base font-bold text-emerald-600">1:2:1</span>
+                        </div>
+                    </div>
+
+                    <!-- Explanatory 3 Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                        <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-xs">
+                            <strong class="text-accent text-xs uppercase tracking-wider block mb-1">🐕 Epistasis</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">Interacción no alélica donde un gen (epistático) enmascara la expresión de otro (hipostático). Clásico en labradores: el alelo (e/e) suprime la pigmentación negra/chocolate.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-xs">
+                            <strong class="text-accent text-xs uppercase tracking-wider block mb-1">⚡ Pleiotropía</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">Un único gen mutado desencadena múltiples manifestaciones clínicas y fenotípicas inconexas. Ejemplos médicos: <b>Anemia Falciforme</b> y <b>Síndrome de Marfan</b> (fibrilina-1).</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-xs">
+                            <strong class="text-accent text-xs uppercase tracking-wider block mb-1">📈 Herencia Poligénica</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">Caracteres cuantitativos continuos determinados por el efecto aditivo de múltiples loci génicos independientes, originando una distribución en campana gaussiana (estatura, color de piel).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== TAB 4: GENOTIPO, AMBIENTE & EXPRESIÓN ==================== -->
+            <section id="tab-ambiente" class="tab-content hidden space-y-6">
+                <!-- Header Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-1">Genotipo, Ambiente y Expresión Génica</h2>
+                    <p class="text-xs text-gray-500">Modulación del fenotipo por factores ambientales. Distinción clínica fundamental entre <b>penetrancia</b> (concepto poblacional todo o nada) y <b>expresividad variable</b> (espectro clínico individual).</p>
+                </div>
+
+                <!-- Simulation Interactive Card with Canvas -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-3 border-b border-gray-100">
+                        <div>
+                            <span class="text-xs font-bold text-accent uppercase tracking-wider">Genética Médica & Factores Ambientales</span>
+                            <h3 class="text-base font-bold text-gray-800 mt-0.5">Penetrancia Incompleta y Espectro Clínico de Expresividad</h3>
+                        </div>
+                        <!-- Environment Slider -->
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold text-gray-600">Presión Ambiental (E):</span>
+                            <input type="range" id="sl-env" min="0" max="100" step="5" value="50" oninput="updateEnvironment()" class="accent-[#436600] cursor-pointer">
+                            <span id="lbl-env-val" class="text-xs font-bold text-accent">50%</span>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Ambiente & Penetrancia -->
+                    <div class="w-full bg-[#fcfdfb] rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center p-2">
+                        <canvas id="canvas-ambiente" width="750" height="340" class="max-w-full h-auto"></canvas>
+                    </div>
+
+                    <!-- Telemetry Cards -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Penetrancia Poblacional</span>
+                            <span id="amb-pen-val" class="text-base font-bold text-accent">80% (Incompleta)</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Expresividad Clínica</span>
+                            <span id="amb-exp-val" class="text-base font-bold text-blue-600">Espectro Moderado</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Ecuación Biológica</span>
+                            <span class="text-xs font-bold text-emerald-600 mt-1 block">$\text{Fenotipo} = G + E + (G \times E)$</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-semibold text-gray-500 block">Ejemplo Clínico Típico</span>
+                            <span class="text-xs font-bold text-amber-600 mt-1 block">Neurofibromatosis Tipo 1 / BRCA1</span>
+                        </div>
+                    </div>
+
+                    <!-- Medical Comparison Box -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                            <strong class="text-accent text-sm block mb-1">🎯 Penetrancia Génica (Concepto Cuantitativo):</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">Es el porcentaje de individuos portadores de un genotipo patogénico específico que expresan el fenotipo clínico correspondiente. Si el (100%) de los portadores enferman, es <b>completa</b>. Si algunos portadores permanecen sanos toda la vida (ej. genes (BRCA1/2) de cáncer de mama o polidactilia familiar), la penetrancia es <b>incompleta o reducida</b>.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                            <strong class="text-accent text-sm block mb-1">📊 Expresividad Variable (Concepto Cualitativo):</strong>
+                            <p class="text-xs text-gray-600 leading-relaxed">Alude al grado, severidad o intensidad con que se manifiesta el fenotipo en un paciente particular portador de la mutación. En la <b>Neurofibromatosis Tipo 1 (NF1)</b>, un paciente puede presentar únicamente máculas "café con leche" leves, mientras que un familiar con el mismo genotipo puede desarrollar neurofibromas plexiformes graves y escoliosis.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-3">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-gray-500 font-semibold tracking-wide">
+            Desarrollado por vesalio - Todos los derechos reservados
+        </div>
+    </footer>
+
+    <!-- Modal Guía de Uso -->
+    <div id="tutorial-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white border border-slate-200 max-w-lg w-full rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+                <h3 class="font-bold text-sm text-slate-800 flex items-center space-x-2">
+                    <i class="fa-solid fa-graduation-cap text-accent"></i>
+                    <span>Guía de Uso: Genética, Mendel e Interacción Génica</span>
+                </h3>
+                <button onclick="closeTutorial()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="space-y-3.5 text-xs text-slate-600 leading-relaxed overflow-y-auto max-h-[380px] pr-2 custom-scroll">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">1. Navegación por Ejes Temáticos</strong>
+                    Explore secuencialmente los 4 módulos: <strong>Conceptos & Cromosomas</strong>, <strong>Leyes de Mendel & Punnett</strong>, <strong>Interacción Génica & ABO</strong> y <strong>Genotipo, Penetrancia & Clima</strong>. Cada sección integra su propio motor gráfico Canvas 2D en tiempo real, tableros de control y telemetría bioestadística.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">2. Cromosomas Homólogos, Locus y Cigosidad</strong>
+                    Visualice en el Canvas los brazos cromosómicos ($p$ y $q$), el centrómero y el locus específico del Gen A. Seleccione entre <strong>Homocigota Dominante ($AA$)</strong>, <strong>Heterocigota ($Aa$)</strong> y <strong>Homocigota Recesivo ($aa$)</strong> para observar cómo la combinación alélica determina directamente el fenotipo de la semilla en <i>Pisum sativum</i>.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">3. Leyes de Mendel, Tablero de Punnett y Monte Carlo</strong>
+                    Analice el cruzamiento monohíbrido ($Aa \times Aa$) de la generación $F_1$, comprobando la segregación meiótica que produce proporciones genotípicas $1:2:1$ ($25\% AA, 50\% Aa, 25\% aa$) y fenotípicas $3:1$ ($75\%$ amarillas, $25\%$ verdes). Presione <strong>"Simular 1,000 Cruces"</strong> para ejecutar un muestreo estocástico de Monte Carlo y contrastar la ley de los grandes números con las probabilidades teóricas.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">4. Herencia No Mendeliana, Sistema ABO y Poligenia</strong>
+                    Modela tres patrones que escapan a la dominancia completa:
+                    <ul class="list-disc list-inside mt-1 space-y-0.5 pl-1">
+                        <li><strong>Dominancia Incompleta:</strong> Flores rosadas ($C^R C^W$) en <i>Mirabilis jalapa</i> con fenotipo intermedio y proporción $1:2:1$.</li>
+                        <li><strong>Codominancia y Alelos Múltiples:</strong> Antígenos eritrocitarios en superficie del grupo sanguíneo $AB$ ($I^A I^B$).</li>
+                        <li><strong>Herencia Poligénica Cuantitativa:</strong> Curva de Gauss continua para caracteres multifactoriales (altura, color de piel).</li>
+                    </ul>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-150">
+                    <strong class="text-accent block mb-1">5. Genética Médica: Penetrancia Incompleta y Expresividad Variable</strong>
+                    Distinga la diferencia clave en el examen de ingreso médico:
+                    <ul class="list-disc list-inside mt-1 space-y-0.5 pl-1">
+                        <li><strong>Penetrancia (Concepto de Todo o Nada):</strong> Porcentaje poblacional de portadores del genotipo patogénico que expresan la enfermedad (ej. genes $BRCA1/2$).</li>
+                        <li><strong>Expresividad Variable (Gradación Cualitativa):</strong> Rango o severidad de síntomas en un paciente individual (ej. Neurofibromatosis Tipo 1 - NF1).</li>
+                        <li><strong>Ecuación Fundamental:</strong> Desplace el control de <i>Presión Ambiental (E)</i> para verificar la modulación biológica $\text{Fenotipo} = G + E + (G \times E)$.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-2 flex justify-end">
+                <button onclick="closeTutorial()" class="w-full bg-accent hover:opacity-90 text-white py-2.5 rounded-xl text-xs font-semibold transition shadow-sm">
+                    ¡Comenzar Estudio!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS DE SIMULACIÓN Y RENDERIZADO CANVAS -->
+    <script>
+        const state = {
+            currentTab: 'glosario',
+            // Tab 1: Chromosomes
+            zygosity: 'homo-dom',
+            // Tab 2: Mendel
+            stochAA: 250,
+            stochAa: 500,
+            stoch_aa: 250,
+            // Tab 3: Non-Mendelian
+            nmMode: 'incompleta',
+            // Tab 4: Environment
+            envVal: 50,
+            time: 0
+        };
+
+        // Navigation
+        function switchTab(tabId) {
+            state.currentTab = tabId.replace('tab-', '');
+            const tabs = ['glosario', 'mendel', 'no-mendel', 'ambiente'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('btn-tab-' + t);
+                const content = document.getElementById('tab-' + t);
+                if (t === state.currentTab) {
+                    btn.className = "bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-semibold transition";
+                    content.classList.remove('hidden');
+                    content.classList.add('block');
+                } else {
+                    btn.className = "text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition";
+                    content.classList.remove('block');
+                    content.classList.add('hidden');
+                }
+            });
+            setTimeout(renderLatex, 50);
+        }
+
+        function openTutorial() {
+            document.getElementById('tutorial-modal').classList.remove('hidden');
+            renderLatex();
+        }
+
+        function closeTutorial() {
+            document.getElementById('tutorial-modal').classList.add('hidden');
+        }
+
+        function renderLatex() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        /* ---------------- TAB 1: CROMOSOMAS & CIGOSIDAD ---------------- */
+        function setZygosity(zyg) {
+            state.zygosity = zyg;
+            const bHD = document.getElementById('btn-zyg-hd');
+            const bHet = document.getElementById('btn-zyg-het');
+            const bHR = document.getElementById('btn-zyg-hr');
+
+            bHD.className = "px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition";
+            bHet.className = "px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition";
+            bHR.className = "px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition";
+
+            if (zyg === 'homo-dom') {
+                bHD.className = "px-2.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg transition shadow-sm";
+                document.getElementById('t1-genotype-val').innerHTML = 'AA';
+                document.getElementById('t1-zygosity-val').textContent = 'Homocigota Dominante';
+                document.getElementById('t1-phenotype-val').textContent = 'Semilla Amarilla (100% Pigmento)';
+            } else if (zyg === 'hetero') {
+                bHet.className = "px-2.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg transition shadow-sm";
+                document.getElementById('t1-genotype-val').innerHTML = 'Aa';
+                document.getElementById('t1-zygosity-val').textContent = 'Heterocigota';
+                document.getElementById('t1-phenotype-val').textContent = 'Semilla Amarilla (Enmascara "a")';
+            } else if (zyg === 'homo-rec') {
+                bHR.className = "px-2.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg transition shadow-sm";
+                document.getElementById('t1-genotype-val').innerHTML = 'aa';
+                document.getElementById('t1-zygosity-val').textContent = 'Homocigota Recesivo';
+                document.getElementById('t1-phenotype-val').textContent = 'Semilla Verde (Ausencia de Enzima)';
+            }
+            renderLatex();
+        }
+
+        function renderChromosomes(ctx, width, height, t) {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2;
+
+            // Chromosome 1 (Maternal, Left)
+            drawSingleChromosome(ctx, cx - 110, cy, '#2563eb', '#1d4ed8', 'Homólogo Materno');
+            // Chromosome 2 (Paternal, Right)
+            drawSingleChromosome(ctx, cx + 110, cy, '#dc2626', '#b91c1c', 'Homólogo Paterno');
+
+            // Draw Gene Locus Bands
+            const locusY = cy - 35;
+
+            // Maternal Allele
+            let alleleMat = 'A';
+            let colorMat = '#436600';
+            if (state.zygosity === 'homo-rec') {
+                alleleMat = 'a';
+                colorMat = '#16a34a';
+            }
+
+            // Paternal Allele
+            let allelePat = 'A';
+            let colorPat = '#436600';
+            if (state.zygosity === 'hetero' || state.zygosity === 'homo-rec') {
+                allelePat = 'a';
+                colorPat = '#16a34a';
+            }
+
+            drawLocusBand(ctx, cx - 110, locusY, colorMat, alleleMat);
+            drawLocusBand(ctx, cx + 110, locusY, colorPat, allelePat);
+
+            // Connecting indicator line between loci
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(cx - 90, locusY);
+            ctx.lineTo(cx + 90, locusY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#436600';
+            ctx.font = 'bold 11px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Locus Específico (Gen A)', cx, locusY - 10);
+        }
+
+        function drawSingleChromosome(ctx, x, y, mainColor, darkColor, label) {
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Upper arms (p arms)
+            ctx.fillStyle = mainColor;
+            ctx.beginPath();
+            ctx.roundRect(-22, -110, 44, 90, [18, 18, 6, 6]);
+            ctx.fill();
+
+            // Centromere constriction
+            ctx.fillStyle = darkColor;
+            ctx.beginPath();
+            ctx.arc(0, -10, 14, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Lower arms (q arms)
+            ctx.fillStyle = mainColor;
+            ctx.beginPath();
+            ctx.roundRect(-24, 0, 48, 120, [6, 6, 20, 20]);
+            ctx.fill();
+
+            // Chromosome Label
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 11px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, 0, 145);
+
+            ctx.restore();
+        }
+
+        function drawLocusBand(ctx, x, y, color, alleleText) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x - 24, y - 10, 48, 20);
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x - 24, y - 10, 48, 20);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 14px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(alleleText, x, y + 5);
+        }
+
+        /* ---------------- TAB 2: MENDEL & PUNNETT ---------------- */
+        function runStochasticSimulation() {
+            const total = 1000;
+            let aa = 0;
+            let Aa = 0;
+            let rec = 0;
+
+            for (let i = 0; i < total; i++) {
+                const r = Math.random();
+                if (r < 0.25) aa++;
+                else if (r < 0.75) Aa++;
+                else rec++;
+            }
+
+            state.stochAA = aa;
+            state.stochAa = Aa;
+            state.stoch_aa = rec;
+
+            document.getElementById('stoch-aa-val').textContent = `${aa} (${((aa/total)*100).toFixed(1)}%)`;
+            document.getElementById('stoch-aa-rec-val').textContent = `${rec} (${((rec/total)*100).toFixed(1)}%)`;
+        }
+
+        function resetMendelSim() {
+            state.stochAA = 250;
+            state.stochAa = 500;
+            state.stoch_aa = 250;
+            document.getElementById('stoch-aa-val').textContent = '250 (25.0%)';
+            document.getElementById('stoch-aa-rec-val').textContent = '250 (25.0%)';
+        }
+
+        function renderMendelCanvas(ctx, width, height, t) {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(0, 0, width, height);
+
+            // Parental Generation (P)
+            ctx.fillStyle = '#436600';
+            ctx.font = 'bold 12px Outfit, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('Generación Parental (P):', 40, 40);
+
+            drawPeaSeed(ctx, 230, 36, '#eab308', 'AA (Amarilla)');
+            ctx.fillStyle = '#64748b';
+            ctx.font = 'bold 14px Outfit, sans-serif';
+            ctx.fillText('×', 320, 42);
+            drawPeaSeed(ctx, 360, 36, '#22c55e', 'aa (Verde)');
+
+            // Arrow down to F1
+            drawDownArrow(ctx, 290, 65, 290, 105, '#94a3b8');
+
+            // F1 Generation
+            ctx.fillStyle = '#436600';
+            ctx.font = 'bold 12px Outfit, sans-serif';
+            ctx.fillText('Filial 1 (F1): 100% Heterocigotas', 40, 125);
+            drawPeaSeed(ctx, 290, 120, '#eab308', 'Aa (Amarilla Uniforme)');
+
+            // Arrow down to F2
+            drawDownArrow(ctx, 290, 150, 290, 190, '#94a3b8');
+
+            // F2 Generation
+            ctx.fillStyle = '#436600';
+            ctx.font = 'bold 12px Outfit, sans-serif';
+            ctx.fillText('Filial 2 (F2): Segregación 3:1', 40, 215);
+
+            // 4 Seeds in F2
+            drawPeaSeed(ctx, 220, 225, '#eab308', 'AA (25%)');
+            drawPeaSeed(ctx, 310, 225, '#eab308', 'Aa (25%)');
+            drawPeaSeed(ctx, 400, 225, '#eab308', 'Aa (25%)');
+            drawPeaSeed(ctx, 490, 225, '#22c55e', 'aa (25%)');
+
+            // Bottom summary line
+            ctx.fillStyle = '#64748b';
+            ctx.font = '500 11px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('75% Fenotipo Dominante Amarillo (AA + Aa)  •  25% Fenotipo Recesivo Verde aa', width / 2, height - 15);
+        }
+
+        function drawPeaSeed(ctx, x, y, color, label) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, 16, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 10px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, x, y + 28);
+        }
+
+        function drawDownArrow(ctx, x1, y1, x2, y2, color) {
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - 5, y2 - 7);
+            ctx.lineTo(x2 + 5, y2 - 7);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        /* ---------------- TAB 3: HERENCIA NO MENDELIANA ---------------- */
+        function setNonMendelMode(mode) {
+            state.nmMode = mode;
+            const bInc = document.getElementById('btn-nm-inc');
+            const bAbo = document.getElementById('btn-nm-abo');
+            const bPoli = document.getElementById('btn-nm-poli');
+            const titleEl = document.getElementById('nm-mode-title');
+
+            bInc.className = "px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition";
+            bAbo.className = "px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition";
+            bPoli.className = "px-2.5 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-accent transition";
+
+            if (mode === 'incompleta') {
+                bInc.className = "px-2.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg transition shadow-sm";
+                titleEl.textContent = "Dominancia Incompleta: Flores de Mirabilis jalapa (Dondiego de Noche)";
+                document.getElementById('nm-t1-title').textContent = "Genotipo Analizado";
+                document.getElementById('nm-t1-val').innerHTML = "C<sup>R</sup>C<sup>W</sup>";
+                document.getElementById('nm-t2-title').textContent = "Fenotipo Expresado";
+                document.getElementById('nm-t2-val').textContent = "Rosado (Intermedio)";
+                document.getElementById('nm-t3-title').textContent = "Mecanismo Molecular";
+                document.getElementById('nm-t3-val').textContent = "50% Síntesis Antocianina";
+                document.getElementById('nm-t4-val').textContent = "1:2:1 (Rojo:Rosado:Blanco)";
+            } else if (mode === 'abo') {
+                bAbo.className = "px-2.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg transition shadow-sm";
+                titleEl.textContent = "Codominancia y Alelos Múltiples: Sistema Sanguíneo ABO (Eritrocitos)";
+                document.getElementById('nm-t1-title').textContent = "Genotipo Heterocigota";
+                document.getElementById('nm-t1-val').innerHTML = "I<sup>A</sup>I<sup>B</sup>";
+                document.getElementById('nm-t2-title').textContent = "Grupo Sanguíneo (Fenotipo)";
+                document.getElementById('nm-t2-val').textContent = "Grupo AB (Codominante)";
+                document.getElementById('nm-t3-title').textContent = "Antígenos de Membrana";
+                document.getElementById('nm-t3-val').textContent = "Expresión simultánea A y B";
+                document.getElementById('nm-t4-val').textContent = "Alelos: IA, IB, i";
+            } else if (mode === 'poligenia') {
+                bPoli.className = "px-2.5 py-1.5 bg-accent text-white text-xs font-bold rounded-lg transition shadow-sm";
+                titleEl.textContent = "Herencia Poligénica Cuantitativa: Campana de Gauss en Rasgos Médicos";
+                document.getElementById('nm-t1-title').textContent = "Bases Genéticas";
+                document.getElementById('nm-t1-val').textContent = "Multi-Loci Aditivos";
+                document.getElementById('nm-t2-title').textContent = "Distribución Fenotípica";
+                document.getElementById('nm-t2-val').textContent = "Continua (Curva Gaussiana)";
+                document.getElementById('nm-t3-title').textContent = "Ejemplo Humano";
+                document.getElementById('nm-t3-val').textContent = "Estatura / Tensión Arterial";
+                document.getElementById('nm-t4-val').textContent = "Campana Normal";
+            }
+            renderLatex();
+        }
+
+        function renderNonMendel(ctx, width, height, t) {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2;
+
+            if (state.nmMode === 'incompleta') {
+                // Mirabilis jalapa 3 flowers
+                drawFlower(ctx, cx - 180, cy, '#ef4444', 'C^R C^R', 'Rojo (100% Pigmento)');
+                drawFlower(ctx, cx, cy, '#f472b6', 'C^R C^W', 'Rosado (50% Pigmento)');
+                drawFlower(ctx, cx + 180, cy, '#f1f5f9', 'C^W C^W', 'Blanco (0% Pigmento)');
+
+                ctx.fillStyle = '#64748b';
+                ctx.font = '500 11px Outfit, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('El heterocigota no es idéntico a ningún parental; expresa un fenotipo intermedio por menor dosis génica', cx, height - 15);
+
+            } else if (state.nmMode === 'abo') {
+                // Red Blood Cell with dual antigens
+                drawErythrocyte(ctx, cx, cy - 10);
+
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 12px Outfit, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Eritrocito Grupo AB (Genotipo IA IB)', cx, cy + 85);
+                ctx.fillStyle = '#64748b';
+                ctx.font = '500 11px Outfit, sans-serif';
+                ctx.fillText('Codominancia: Los dos alelos se expresan completamente a la vez en la membrana celular', cx, height - 15);
+
+            } else if (state.nmMode === 'poligenia') {
+                // Gaussian Bell Curve
+                drawGaussianCurve(ctx, width, height);
+            }
+        }
+
+        function drawFlower(ctx, x, y, petalColor, genotype, label) {
+            ctx.fillStyle = petalColor;
+            for (let i = 0; i < 5; i++) {
+                const ang = (i * 2 * Math.PI) / 5;
+                ctx.beginPath();
+                ctx.arc(x + 22 * Math.cos(ang), y + 22 * Math.sin(ang), 16, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.strokeStyle = '#334155';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+            // Center of flower
+            ctx.fillStyle = '#eab308';
+            ctx.beginPath();
+            ctx.arc(x, y, 12, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Labels
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 12px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(genotype, x, y + 55);
+            ctx.font = '500 10.5px Outfit, sans-serif';
+            ctx.fillStyle = '#64748b';
+            ctx.fillText(label, x, y + 72);
+        }
+
+        function drawErythrocyte(ctx, x, y) {
+            // Erythrocyte Body
+            ctx.fillStyle = '#dc2626';
+            ctx.beginPath();
+            ctx.arc(x, y, 65, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.strokeStyle = '#991b1b';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Concavity
+            ctx.fillStyle = '#b91c1c';
+            ctx.beginPath();
+            ctx.arc(x, y, 32, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Antigens on surface
+            for (let i = 0; i < 12; i++) {
+                const ang = (i * 2 * Math.PI) / 12;
+                const px = x + 72 * Math.cos(ang);
+                const py = y + 72 * Math.sin(ang);
+
+                if (i % 2 === 0) {
+                    // Antigen A (Blue circle)
+                    ctx.fillStyle = '#2563eb';
+                    ctx.beginPath();
+                    ctx.arc(px, py, 6, 0, 2 * Math.PI);
+                    ctx.fill();
+                } else {
+                    // Antigen B (Yellow diamond)
+                    ctx.fillStyle = '#eab308';
+                    ctx.beginPath();
+                    ctx.rect(px - 5, py - 5, 10, 10);
+                    ctx.fill();
+                }
+            }
+
+            // Legend
+            ctx.fillStyle = '#2563eb';
+            ctx.beginPath(); ctx.arc(x - 90, y - 60, 5, 0, 2*Math.PI); ctx.fill();
+            ctx.fillStyle = '#1e293b'; ctx.font = 'bold 10px Outfit, sans-serif'; ctx.fillText('Antígeno A', x - 50, y - 57);
+
+            ctx.fillStyle = '#eab308';
+            ctx.fillRect(x + 50, y - 65, 9, 9);
+            ctx.fillStyle = '#1e293b'; ctx.fillText('Antígeno B', x + 90, y - 57);
+        }
+
+        function drawGaussianCurve(ctx, width, height) {
+            const baseY = 240;
+            const cx = width / 2;
+
+            // Axis
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(80, baseY);
+            ctx.lineTo(width - 80, baseY);
+            ctx.stroke();
+
+            // Curve
+            ctx.strokeStyle = '#436600';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let x = 80; x <= width - 80; x += 4) {
+                const z = (x - cx) / 75;
+                const y = baseY - 160 * Math.exp(-0.5 * z * z);
+                if (x === 80) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Center Mean Marker
+            ctx.strokeStyle = '#ea580c';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(cx, baseY);
+            ctx.lineTo(cx, baseY - 160);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#ea580c';
+            ctx.font = 'bold 11px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Fenotipo Medio (Media μ)', cx, baseY - 170);
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = '500 11px Outfit, sans-serif';
+            ctx.fillText('Valores Extremos (Bajos)', 130, baseY + 20);
+            ctx.fillText('Valores Extremos (Altos)', width - 130, baseY + 20);
+            ctx.fillText('Distribución normal continua provocada por la suma aditiva de múltiples alelos polimórficos', cx, height - 15);
+        }
+
+        /* ---------------- TAB 4: AMBIENTE & PENETRANCIA ---------------- */
+        function updateEnvironment() {
+            state.envVal = parseFloat(document.getElementById('sl-env').value);
+            document.getElementById('lbl-env-val').textContent = state.envVal + '%';
+
+            // Penetrancia calculation
+            const pen = Math.min(100, Math.max(40, 50 + state.envVal * 0.45));
+            document.getElementById('amb-pen-val').textContent = `${pen.toFixed(0)}% (Incompleta)`;
+
+            let expText = "Leve (Pocos signos)";
+            if (state.envVal > 65) expText = "Grave (Síntomas floridos)";
+            else if (state.envVal > 35) expText = "Moderada (Expresividad media)";
+
+            document.getElementById('amb-exp-val').textContent = expText;
+        }
+
+        function renderAmbiente(ctx, width, height, t) {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2 - 20;
+
+            // 10 Individual Patient Icons representing a population
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 12px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Población de 10 Individuos con Idéntico Genotipo Patogénico:', cx, 40);
+
+            const pen = Math.min(10, Math.max(4, Math.round(5 + (state.envVal / 100) * 4.5)));
+
+            for (let i = 0; i < 10; i++) {
+                const x = 120 + i * 55;
+                const y = cy;
+
+                const manifests = i < pen;
+                // Severity depends on envVal
+                const severityRadius = manifests ? 12 + (state.envVal / 100) * 8 : 12;
+
+                // Patient body
+                ctx.fillStyle = manifests ? '#dc2626' : '#22c55e';
+                ctx.beginPath();
+                ctx.arc(x, y, severityRadius, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.strokeStyle = '#1e293b';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Status text
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 9px Outfit, sans-serif';
+                ctx.fillText(manifests ? 'Afectado' : 'Sano', x, y + 34);
+            }
+
+            // Summary text
+            ctx.fillStyle = '#436600';
+            ctx.font = 'bold 12px Outfit, sans-serif';
+            ctx.fillText(`Penetrancia: ${pen * 10}% de los portadores enferman  •  Expresividad: Severidad modulada por ambiente (${state.envVal}%)`, cx, height - 35);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '500 11px Outfit, sans-serif';
+            ctx.fillText('La penetrancia evalúa si el rasgo aparece; la expresividad evalúa con qué severidad se manifiesta', cx, height - 15);
+        }
+
+        /* ---------------- MASTER ANIMATION LOOP ---------------- */
+        function mainLoop(timestamp) {
+            state.time = timestamp;
+
+            const c1 = document.getElementById('canvas-chrom');
+            if (c1 && state.currentTab === 'glosario') {
+                renderChromosomes(c1.getContext('2d'), c1.width, c1.height, timestamp);
+            }
+
+            const c2 = document.getElementById('canvas-mendel');
+            if (c2 && state.currentTab === 'mendel') {
+                renderMendelCanvas(c2.getContext('2d'), c2.width, c2.height, timestamp);
+            }
+
+            const c3 = document.getElementById('canvas-non-mendel');
+            if (c3 && state.currentTab === 'no-mendel') {
+                renderNonMendel(c3.getContext('2d'), c3.width, c3.height, timestamp);
+            }
+
+            const c4 = document.getElementById('canvas-ambiente');
+            if (c4 && state.currentTab === 'ambiente') {
+                renderAmbiente(c4.getContext('2d'), c4.width, c4.height, timestamp);
+            }
+
+            requestAnimationFrame(mainLoop);
+        }
+
+        // Bootstrap on load
+        window.onload = () => {
+            switchTab('tab-glosario');
+            setZygosity('homo-dom');
+            setNonMendelMode('incompleta');
+            updateEnvironment();
+            requestAnimationFrame(mainLoop);
+        };
+    </script>
+</body>
+</html>
